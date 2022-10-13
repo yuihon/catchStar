@@ -9,15 +9,45 @@ export default class Menu extends Phaser.Scene {
        this.load.image("gameName","../../public/assets/images/gamename.png");
        this.load.image("play","../../public/assets/images/play.png");
        this.load.image("store","../../public/assets/images/store.png");
-       this.load.image("bottomground","../../public/assets/images/bottomground.png");
        this.load.image("topground","../../public/assets/images/topground.png");
        this.load.spritesheet("player","../../public/assets/images/player.png",{
         frameWidth:100,
         frameHeight:116
        });
+       this.load.spritesheet("star","../../public/assets/images/star.png",{
+        frameWidth:100,
+        frameHeight:100
+       });
     }
     create() {
         console.log("menu create");
+        this.anims.create({
+          key:"changeStar1",
+          frames:this.anims.generateFrameNames("star",{
+            start:0,
+            end:0
+          }),
+          frameRate:10,
+          repeat:-1
+        });
+        this.anims.create({
+          key:"changeStar2",
+          frames:this.anims.generateFrameNames("star",{
+            start:1,
+            end:1
+          }),
+          frameRate:10,
+          repeat:-1
+        });
+        this.anims.create({
+          key:"changeStar3",
+          frames:this.anims.generateFrameNames("star",{
+            start:2,
+            end:2
+          }),
+          frameRate:10,
+          repeat:-1
+        });
     }
   
     update() {

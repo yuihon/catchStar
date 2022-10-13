@@ -3,7 +3,7 @@ import Play from "./scenes/play.js";
 import Menu from './scenes/menu.js';
 export const config = {
     type: Phaser.AUTO,
-    width: 800,
+    width: 900,
     height: 1200,
     pixelArt: true,
     scale: {
