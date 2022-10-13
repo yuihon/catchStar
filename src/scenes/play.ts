@@ -1,3 +1,4 @@
+
 import  Player from "../sprites/player";
 import Store from "../sprites/store";
 import { config } from "../game";
@@ -7,12 +8,14 @@ export default class Play extends Phaser.Scene {
  public Store;
   constructor() {
     super("Play");
+    
   }
   preload() {
 
   }
   create() {
       this.player=new Player(this,config.width/2,config.height-58,"player");
+      this.player.setClimbForce(1.5);
       this.Store=new Store(this,500,500,"store");
       this.Store.setInteractive();
       this.input.on("gameobjectup",this.clickStore,this);
@@ -20,15 +23,14 @@ export default class Play extends Phaser.Scene {
     }
 
   update() {
-    
+    this.player.setClimbDir( this.Store.x-this.player.x,this.Store.y-this.player.y);
   }
   clickStore(pointer,store){
     proxy.emit(CLICK_STORE,store);
   }
   climb(store){
-    console.log(store.x);
-    this.player.setVelocityY(-1000);
-}
+    this.player.drag();
+  }
 }
 
 
