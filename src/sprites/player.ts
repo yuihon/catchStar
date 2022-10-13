@@ -30,7 +30,4 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
     setClimbForce(force){
         this.climbForce=force;
     }
-    stopClimb(){
-        this.setVelocity(0,0);
-    }
 }
