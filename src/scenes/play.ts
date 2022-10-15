@@ -3,6 +3,9 @@ import  Player from "../sprites/player";
 import Store from "../sprites/store";
 import { config } from "../game";
 import { proxy,CLICK_STORE,CATCH_STAR } from "../core/proxy";
+import StateMachine from "../states/fsm";
+import Playing from "../states/playing";
+import EndPlay from "../states/endPlay";
 export default class Play extends Phaser.Scene {
  public player;
  public stores;
@@ -14,9 +17,16 @@ export default class Play extends Phaser.Scene {
  public timeClock;
  public curStarNum;
  public freshTime;
+ public isEnd;
+ public isPlaying;
+ private m_fsm:StateMachine;
   constructor() {
     super("Play");
     this.stores=[];
+    this.m_fsm=new StateMachine('playing',[
+      new Playing(this),
+      new EndPlay(this),
+    ]);
   }
   preload() {
 
@@ -43,8 +53,11 @@ export default class Play extends Phaser.Scene {
     }
 
   update(time: number, delta: number) {
-    console.log('rad'+this.randomStarNum);
-    this.timeClock=Math.round(time/1000);
+    if(this.isEnd==true)this.timeEnd();
+    this.m_fsm.step();
+    this.timeClock=this.timeClock+delta/1000;//Math.round(time/1000);
+    console.log(this.timeClock);
+    if(this.timeClock>=5)this.isEnd=true;
     this.timeControlStarNum();
     this.freshStar(delta);
     if(this.isClimb==true)
@@ -126,6 +139,9 @@ export default class Play extends Phaser.Scene {
   destroyStar(star){
     star.destroy();
     this.curStarNum--;
+  }
+  timeEnd(){
+    //this.scene.pause();
   }
 }
 
