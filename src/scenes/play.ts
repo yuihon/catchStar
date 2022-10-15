@@ -2,7 +2,7 @@ import Star from "../sprites/star";
 import  Player from "../sprites/player";
 import Store from "../sprites/store";
 import { config } from "../game";
-import { proxy,CLICK_STORE } from "../core/proxy";
+import { proxy,CLICK_STORE,CATCH_STAR } from "../core/proxy";
 export default class Play extends Phaser.Scene {
  public player;
  public stores;
@@ -39,9 +39,11 @@ export default class Play extends Phaser.Scene {
 
       this.timeClock=0;
       proxy.on(CLICK_STORE,this.climb,this);
+      proxy.on(CATCH_STAR,this.destroyStar,this);
     }
 
   update(time: number, delta: number) {
+    console.log('rad'+this.randomStarNum);
     this.timeClock=Math.round(time/1000);
     this.timeControlStarNum();
     this.freshStar(delta);
@@ -88,7 +90,8 @@ export default class Play extends Phaser.Scene {
   {
     if(this.curStarNum<this.randomStarNum)
     {
-      var stars=new Star(this,250,400,"star");
+      var star=new Star(this,250,400,"star");
+      this.physics.add.collider(this.player,star,this.catchStar,null,this.player,star);
       this.curStarNum++;
     }
   }
@@ -116,6 +119,13 @@ export default class Play extends Phaser.Scene {
     if(this.timeClock>=25){
       this.randomStarNum=6;
     }
+  }
+  catchStar(player,star){
+    proxy.emit(CATCH_STAR,star);
+  }
+  destroyStar(star){
+    star.destroy();
+    this.curStarNum--;
   }
 }
 

@@ -20,6 +20,7 @@ export default class Star extends Phaser.GameObjects.Sprite{
         {
             this.play("changeStar3");
         }
+        scene.physics.world.enableBody(this);
         scene.add.existing(this);
     }
     update(){
