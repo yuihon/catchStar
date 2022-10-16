@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import Play from "./scenes/play.js";
 import Menu from './scenes/menu.js';
+import Ui from './scenes/ui.js';
 export const config = {
     type: Phaser.AUTO,
     width: 900,
@@ -16,7 +17,7 @@ export const config = {
         debug:true
     },
     backgroundColor: '#4488aa',
-    scene: [Menu,Play]
+    scene: [Menu,Play,Ui]
 };
  
 export default new Phaser.Game(config);

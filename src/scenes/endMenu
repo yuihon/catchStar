@@ -1,7 +1,0 @@
-import { config } from "../game";
-export default class Menu extends Phaser.Scene {
-    constructor() {
-        super("End");
-    
-      }
-}

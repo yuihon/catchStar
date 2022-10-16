@@ -1,10 +1,9 @@
+import { GameState } from "../scenes/play";
 import BaseState from "./base";
 export default class EndPlay extends BaseState{
     enter(){
         super.enter();
-        const playScene=this.m_playScene;
-        playScene.isEnd=true;
-        playScene.isPlaying=false;
+        this.m_playScene.state=GameState.End;
     }
     execute(){
         const fsm=this.owner;

@@ -10,6 +10,8 @@ export default class Menu extends Phaser.Scene {
        this.load.image("play","../../public/assets/images/play.png");
        this.load.image("store","../../public/assets/images/store.png");
        this.load.image("topground","../../public/assets/images/topground.png");
+       this.load.image("tryagain","../../public/assets/images/tryagain.png");
+       this.load.image("gameover","../../public/assets/images/gameover.png");
        this.load.spritesheet("player","../../public/assets/images/player.png",{
         frameWidth:100,
         frameHeight:116
@@ -54,7 +56,7 @@ export default class Menu extends Phaser.Scene {
       this.add.image(config.width/2,166,"gameName");
       this.playButton=this.add.image(config.width/2,config.height-150,'play').setInteractive();
       this.playButton.on("pointerdown",()=>{
-        this.scene.start('Play');
+        this.scene.start("Play");
       })
     }
   }
