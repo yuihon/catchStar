@@ -186,6 +186,9 @@ export default class Play extends Phaser.Scene {
     proxy.emit(TIME_END,this.score);
   }
   restartThisScene(){
+    proxy.off(CLICK_STORE,this.climb,this);
+    proxy.off(CATCH_STAR,this.destroyStar,this);
+    proxy.off(RESTART_PLAY,this.restartThisScene,this);
     this.scene.restart();
   }
   updateScore(){

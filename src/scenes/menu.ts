@@ -1,6 +1,7 @@
 import { config } from "../game";
 export default class Menu extends Phaser.Scene {
     public playButton;
+    private bgmSound;
     constructor() {
       super("Menu");
   
@@ -55,6 +56,17 @@ export default class Menu extends Phaser.Scene {
           frameRate:10,
           repeat:-1
         });
+        this.bgmSound=this.sound.add("audio_bgm");
+        var musicConfig={
+          mute:false,
+          volume:1,
+          rate:1,
+          detune:0,
+          seek:0,
+          loop:true,
+          delay:0
+        }
+        this.bgmSound.play(musicConfig);
     }
   
     update() {

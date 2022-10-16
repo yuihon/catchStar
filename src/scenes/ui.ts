@@ -27,6 +27,9 @@ export default class Ui extends Phaser.Scene {
         this.playButton.setInteractive();
         this.playButton.on("pointerdown",()=>{
             proxy.emit(RESTART_PLAY);
+            proxy.off(TIME_END,this.setEndUI,this);
+            proxy.off(UPDATE_SCORE,this.updateScore,this);
+            proxy.off(UPDATE_TIME,this.updateTime,this);
             this.scene.restart();
 
           });
