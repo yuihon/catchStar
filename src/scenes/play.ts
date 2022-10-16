@@ -6,6 +6,7 @@ import { proxy,CLICK_STORE,CATCH_STAR,TIME_END,RESTART_PLAY,UPDATE_SCORE,UPDATE_
 import StateMachine from "../states/fsm";
 import Playing from "../states/playing";
 import EndPlay from "../states/endPlay";
+import { Game } from "phaser";
 
 export enum GameState{
   PLAYING="playing",
@@ -28,10 +29,14 @@ export default class Play extends Phaser.Scene {
  private m_fsm:StateMachine;
  private score;
  public state:GameState;
+ private cloud;
+ private tips;
+ private ray;
+ private moveSound;
+ private scoreSound;
   constructor() {
     super("Play");
     this.stores=[];
-
   }
   preload() {
 
@@ -43,15 +48,19 @@ export default class Play extends Phaser.Scene {
       new Playing(this),
       new EndPlay(this),
     ]);
+      this.moveSound=this.sound.add("audio_move");
+      this.scoreSound=this.sound.add("audio_score");
+      this.tips=this.add.image(config.width/2,700,"tips");
       this.player=new Player(this,config.width/2,config.height-314,"player");
       this.player.setClimbForce(1.8);
       this.curStarNum=0;
       this.freshTime=0;
       this.randomStarNum=1;
       this.score=0;
+      this.cloud=this.add.tileSprite(500,200,config.width,418,"cloud");
       this.createStores();
       this.createGrounds();
-      
+
 
       this.input.on("gameobjectup",this.clickStore,this);
       this.l=this.add.line(75,0,0,0,140,0,0xeb981b);
@@ -85,14 +94,15 @@ export default class Play extends Phaser.Scene {
         this.l.setTo(this.player.x,this.player.y-58,this.targetStore.x,this.targetStore.y+26);
       }
     }
-    if(this.timeClock>=6)
+    if(this.timeClock>=15)
     {
       this.isEnd=true;
       this.isPlaying=false;
     }
-
+    this.cloud.tilePositionX-=0.5;
   }
   clickStore(pointer,store){
+    this.tips.setVisible(false);
       proxy.emit(CLICK_STORE,store);
   }
   climb(store){
@@ -102,6 +112,7 @@ export default class Play extends Phaser.Scene {
       this.player.setClimbDir( this.targetStore.x-this.player.x,this.targetStore.y-this.player.y);
       this.isClimb=true;
       this.l.setVisible(true);
+      this.moveSound.play();
       this.player.drag();
     }
   }
@@ -178,8 +189,12 @@ export default class Play extends Phaser.Scene {
     this.scene.restart();
   }
   updateScore(){
-    this.score=this.score+10;
-    proxy.emit(UPDATE_SCORE,this.score);
+    if(this.state==GameState.PLAYING)
+    {
+      this.scoreSound.play();
+      this.score=this.score+10;
+      proxy.emit(UPDATE_SCORE,this.score);
+    }
   }
 
 }

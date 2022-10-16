@@ -12,6 +12,8 @@ export default class Menu extends Phaser.Scene {
        this.load.image("topground","../../public/assets/images/topground.png");
        this.load.image("tryagain","../../public/assets/images/tryagain.png");
        this.load.image("gameover","../../public/assets/images/gameover.png");
+       this.load.image("cloud","../../public/assets/images/cloud.png");
+       this.load.image("tips","../../public/assets/images/tips.png");
        this.load.spritesheet("player","../../public/assets/images/player.png",{
         frameWidth:100,
         frameHeight:116
@@ -20,6 +22,9 @@ export default class Menu extends Phaser.Scene {
         frameWidth:100,
         frameHeight:100
        });
+       this.load.audio("audio_move",["../../public/assets/sounds/move.ogg","../../public/assets/sounds/move.mp3"]);
+       this.load.audio("audio_score",["../../public/assets/sounds/score.ogg","../../public/assets/sounds/score.mp3"]);
+       this.load.audio("audio_bgm","../../public/assets/sounds/bgm.mp3");
     }
     create() {
         console.log("menu create");

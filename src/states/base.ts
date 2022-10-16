@@ -1,5 +1,4 @@
 import Play from "../scenes/play";
-
 export default class BaseState implements IState{
     protected m_fsm:IFSM;
     protected m_playScene:Play;
