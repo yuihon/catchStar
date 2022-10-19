@@ -6,7 +6,7 @@ import { proxy,CLICK_STORE,CATCH_STAR,TIME_END,RESTART_PLAY,UPDATE_SCORE,UPDATE_
 import StateMachine from "../states/fsm";
 import Playing from "../states/playing";
 import EndPlay from "../states/endPlay";
-import { Game } from "phaser";
+import { BlendModes, Game } from "phaser";
 
 export enum GameState{
   PLAYING="playing",
@@ -34,6 +34,7 @@ export default class Play extends Phaser.Scene {
  private ray;
  private moveSound;
  private scoreSound;
+ public particles;
   constructor() {
     super("Play");
     this.stores=[];
@@ -70,6 +71,7 @@ export default class Play extends Phaser.Scene {
 
       this.timeClock=0;
 
+      this.particles=this.add.particles("circle");
 
 
       proxy.on(CLICK_STORE,this.climb,this);
@@ -81,6 +83,7 @@ export default class Play extends Phaser.Scene {
     }
 
   update(time: number, delta: number) {
+
     if(this.isEnd==true)this.timeEnd();
     this.m_fsm.step();
     if(this.state==GameState.PLAYING)
@@ -94,7 +97,7 @@ export default class Play extends Phaser.Scene {
         this.l.setTo(this.player.x,this.player.y-58,this.targetStore.x,this.targetStore.y+26);
       }
     }
-    if(this.timeClock>=15)
+    if(this.timeClock>=60)
     {
       this.isEnd=true;
       this.isPlaying=false;
@@ -180,6 +183,7 @@ export default class Play extends Phaser.Scene {
   destroyStar(star){
     star.destroy();
     this.curStarNum--;
+    this.starDestroyEffect(star);
     this.updateScore();
   }
   timeEnd(){
@@ -199,7 +203,18 @@ export default class Play extends Phaser.Scene {
       proxy.emit(UPDATE_SCORE,this.score);
     }
   }
-
+  starDestroyEffect(star){
+    var emitter=this.particles.createEmitter({
+      x:star.x,
+      y:star.y,
+      speed:100,
+      scale:{start:1,end:0},
+      lifespan:1000,
+      quantity:1,
+      blendModes:'ADD',
+      maxParticles:10,
+    });
+  }
 }
 
 
