@@ -16,7 +16,8 @@ export default class Menu extends Phaser.Scene {
        this.load.image("cloud","../../public/assets/images/cloud.png");
        this.load.image("tips","../../public/assets/images/tips.png");
        this.load.image("circle","../../public/assets/images/circle.png");
-       
+       this.load.image("fullScreenBtn","../../public/assets/images/fullScreenButton.png");
+
        this.load.spritesheet("player","../../public/assets/images/player.png",{
         frameWidth:100,
         frameHeight:116

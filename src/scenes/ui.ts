@@ -9,6 +9,7 @@ export default class Ui extends Phaser.Scene {
     private textFinalScore;
     private pauseButton;
     private isPauseButtonPress;
+    private fullScreenBtn;
     constructor() {
         super("UI");
       }
@@ -18,6 +19,9 @@ export default class Ui extends Phaser.Scene {
         this.gameover=this.add.image(500,150,"gameover");
         this.textScore=this.add.text(10,10,"得分:0",{font:'32px Arial'});
         this.textTime=this.add.text(500,10,"时间:0",{font:'32px Arial'});
+        this.fullScreenBtn=this.add.image(790,10,"fullScreenBtn");
+        this.fullScreenBtn.setOrigin(0,0).setScale(5,5);
+        this.fullScreenBtn.setInteractive();
         this.textFinalScore=this.add.text(300,300,"最终得分:0",{font:'100px Arial'});
         this.textFinalScore.setColor("Black");
         this.textFinalScore.setVisible(false);
@@ -33,6 +37,13 @@ export default class Ui extends Phaser.Scene {
             this.scene.restart();
 
           });
+        this.fullScreenBtn.on('pointerdown',()=>{
+            if(this.scale.isFullscreen){
+                this.scale.stopFullscreen();
+            }else{
+                this.scale.startFullscreen();
+            }
+        });
         proxy.on(TIME_END,this.setEndUI,this);
         proxy.on(UPDATE_SCORE,this.updateScore,this);
         proxy.on(UPDATE_TIME,this.updateTime,this);
