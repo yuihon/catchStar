@@ -1,12 +1,13 @@
 import { config } from "../game";
-export default class Menu extends Phaser.Scene {
-    public playButton;
-    private bgmSound;
+export default class Menu extends Phaser.Scene { //游戏主菜单场景类
+    public playButton;       //开始游戏的按钮
+    private bgmSound;        //游戏的背景音乐
     constructor() {
       super("Menu");
   
     }
     preload() {
+      //载入游戏所需资源
        this.load.image("gameName","../../public/assets/images/gamename.png");
        this.load.image("play","../../public/assets/images/play.png");
        this.load.image("store","../../public/assets/images/store.png");
@@ -32,6 +33,7 @@ export default class Menu extends Phaser.Scene {
     }
     create() {
         console.log("menu create");
+        //创建不同的星星动画
         this.anims.create({
           key:"changeStar1",
           frames:this.anims.generateFrameNames("star",{
@@ -59,6 +61,7 @@ export default class Menu extends Phaser.Scene {
           frameRate:10,
           repeat:-1
         });
+        //播放背景音乐
         this.bgmSound=this.sound.add("audio_bgm");
         var musicConfig={
           mute:false,
@@ -73,7 +76,8 @@ export default class Menu extends Phaser.Scene {
     }
   
     update() {
-      this.add.image(config.width/2,166,"gameName");
+      this.add.image(config.width/2,166,"gameName");   //在主菜单上添加展示游戏名称的图片
+      //为开始游戏按钮添加鼠标点击事件，使其能开始Play场景
       this.playButton=this.add.image(config.width/2,config.height-150,'play').setInteractive();
       this.playButton.on("pointerdown",()=>{
         this.scene.start("Play");
